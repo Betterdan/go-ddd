@@ -1,0 +1,8 @@
+领域层
+
+entity 领域实体
+event  领域事件
+repo   资源库   统一封装查询
+service 领域服务
+vo  领域-值对象
+

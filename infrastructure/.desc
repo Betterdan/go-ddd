@@ -1,0 +1,11 @@
+基础设施层
+
+外部依赖，组件的衔接
+cache  内层所需缓存的实现，redis....
+config 全局配置实现
+database 内层数据库实现
+log 日志实现
+mq  消息队列的实现
+persistence 内层model持久化实现
+tool  公共工具函数实现
+exception  全局异常实现
