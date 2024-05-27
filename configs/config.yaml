@@ -5,8 +5,8 @@ nacos:
   clientConfig:
     namespaceId: "public"
     timeoutMs: 5000
-    logDir: "./log"
-    cacheDir: "./cache"
+    logDir: "./configs/log"
+    cacheDir: "./configs/cache"
     logLevel: "debug"
   dataId: "dev-go-first"
   group: "DEFAULT_GROUP"

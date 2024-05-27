@@ -1,7 +1,8 @@
 package config
 
 import (
-	"encoding/json"
+	"gopkg.in/yaml.v2"
+	"log"
 
 	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
@@ -9,8 +10,21 @@ import (
 )
 
 type Config struct {
-	ServerAddress string `json:"serverAddress"`
-	// 其他配置项
+	Server   ServerConfig `yaml:"server"`
+	DbConfig DbConfig     `yaml:"db_config"`
+}
+
+type ServerConfig struct {
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
+}
+
+type DbConfig struct {
+	DBHost     string `yaml:"db_host"`
+	DBPort     int    `yaml:"db_port"`
+	DBUser     string `yaml:"db_user"`
+	DBPassword string `yaml:"db_password"`
+	DBName     string `yaml:"db_name"`
 }
 
 func LoadConfig() (*Config, error) {
@@ -56,10 +70,10 @@ func LoadConfig() (*Config, error) {
 
 	// 解析配置
 	cfg := &Config{}
-	err = json.Unmarshal([]byte(content), cfg)
+	err = yaml.Unmarshal([]byte(content), cfg)
 	if err != nil {
 		return nil, err
 	}
-
+	log.Println("content:" + content)
 	return cfg, nil
 }

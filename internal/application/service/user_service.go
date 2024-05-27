@@ -1,25 +1,25 @@
 package service
 
 import (
-	"demo/internal/domain/model"
 	"demo/internal/domain/repository"
-	"demo/internal/domain/service"
 )
 
-type UserAppService struct {
-	userRepository    repository.UserRepository
-	userDomainService service.UserDomainService
+type UserService struct {
+	userRepository repository.UserRepository
 }
 
-func NewUserAppService(repo repository.UserRepository) *UserAppService {
-	return &UserAppService{userRepository: repo}
+func NewUserService(repo repository.UserRepository) *UserService {
+	return &UserService{userRepository: repo}
 }
 
-func (s *UserAppService) RegisterUser(name, email string) (*model.User, error) {
-	user := &model.User{
-		ID:    generateID(),
-		Name:  name,
-		Email: email,
-	}
-	return user, s.userRepository.Save(user)
+//	func (s *UserAppService) RegisterUser(name, email string) (*model.User, error) {
+//		user := &model.User{
+//			ID:    generateID(),
+//			Name:  name,
+//			Email: email,
+//		}
+//		return user, s.userRepository.Save(user)
+//	}
+func (service *UserService) GetUser(id int64) (int, error) {
+	return 1, nil
 }

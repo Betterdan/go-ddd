@@ -1,5 +1,18 @@
 
-Go-ddd
+Go-ddd 实践
+
+### TODO
+1. 跑通一个接口
+2. 优雅启动关闭
+3. 中间件
+   - mysql
+   - redis
+   - pgsql
+   - kafka
+   - pulsar
+   - clickhouse
+4. 日志、全局异常
+5. ....
 
 
 
