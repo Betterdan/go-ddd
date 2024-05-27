@@ -1,0 +1,12 @@
+nacos:
+  serverConfigs:
+    - ipAddr: "127.0.0.1"
+      port: 8848
+  clientConfig:
+    namespaceId: "public"
+    timeoutMs: 5000
+    logDir: "./log"
+    cacheDir: "./cache"
+    logLevel: "debug"
+  dataId: "dev-go-first"
+  group: "DEFAULT_GROUP"
