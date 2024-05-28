@@ -2,15 +2,15 @@ package api
 
 import "demo/internal/interfaces/api/handler"
 
-type Handler struct {
+type HandlerList struct {
 	UserHandler *handler.UserHandler
 	// 可以添加更多的 handler
 }
 
-func NewHandler(
+func NewHandlerList(
 	userHandler *handler.UserHandler,
-) *Handler {
-	return &Handler{
+) *HandlerList {
+	return &HandlerList{
 		UserHandler: userHandler,
 	}
 }

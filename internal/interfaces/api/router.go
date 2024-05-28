@@ -1,18 +1,23 @@
 package api
 
 import (
+	"demo/internal/infrastructure/config"
+	"demo/internal/interfaces/api/middleware"
 	"github.com/gin-gonic/gin"
 )
 
 type RouterConfig struct {
-	Handler *Handler
+	handlerList *HandlerList
+	config      *config.Config
 }
 
-func NewRouter(config *RouterConfig) *gin.Engine {
+func NewRouter(rc *RouterConfig) *gin.Engine {
 	router := gin.Default()
 
-	userHandler := config.Handler.UserHandler
+	//加载中间件
+	router.Use(middleware.ConfigMiddleware(rc.config))
 
+	userHandler := rc.handlerList.UserHandler
 	// 注册用户路由
 	userGroup := router.Group("/users")
 	{
@@ -22,6 +27,6 @@ func NewRouter(config *RouterConfig) *gin.Engine {
 	return router
 }
 
-func NewRouterConfig(handler *Handler) *RouterConfig {
-	return &RouterConfig{Handler: handler}
+func NewRouterConfig(handlerList *HandlerList, config *config.Config) *RouterConfig {
+	return &RouterConfig{handlerList: handlerList, config: config}
 }

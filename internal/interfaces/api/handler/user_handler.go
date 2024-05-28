@@ -2,7 +2,9 @@ package handler
 
 import (
 	"demo/internal/application/service"
+	"demo/internal/infrastructure/utils"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -16,6 +18,9 @@ func NewUserHandler(userService *service.UserService) *UserHandler {
 }
 
 func (h *UserHandler) GetUser(c *gin.Context) {
+	appConfig := utils.GetConfig(c)
+	appConfigStr, _ := utils.JsonToString(appConfig)
+	log.Println("全局配置: ", appConfigStr)
 	idStr := c.Param("id")
 	id, err := strconv.ParseInt(idStr, 10, 64)
 	if err != nil {

@@ -80,7 +80,7 @@ func BuildContainer(allConfig *config.Config) *dig.Container {
 	container.Provide(service.NewUserService)
 	container.Provide(handler.NewUserHandler)
 
-	container.Provide(NewHandler)
+	container.Provide(NewHandlerList)
 	container.Provide(NewRouterConfig)
 	container.Provide(NewRouter)
 	container.Provide(NewServer)
