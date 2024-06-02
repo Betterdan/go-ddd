@@ -11,9 +11,11 @@ import (
 )
 
 type Config struct {
-	Server      ServerConfig `yaml:"server"`
-	DbConfig    DbConfig     `yaml:"db_config"`
-	CacheConfig CacheConfig  `yaml:"cache_config"`
+	Name         string       `yaml:"name"`
+	Server       ServerConfig `yaml:"server"`
+	DbConfig     DbConfig     `yaml:"db_config"`
+	CacheConfig  CacheConfig  `yaml:"cache_config"`
+	LoggerConfig LoggerConfig `yaml:"log"`
 }
 
 type ServerConfig struct {
@@ -38,6 +40,9 @@ type CacheConfig struct {
 	MinIdleCon  int           `yaml:"min_idle_con"`
 	PoolTimeout time.Duration `yaml:"pool_timeout"`
 	IdleTimeout time.Duration `yaml:"idle_timeout"`
+}
+
+type LoggerConfig struct {
 }
 
 func LoadConfig() (*Config, error) {

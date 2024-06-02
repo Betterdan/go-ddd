@@ -3,8 +3,10 @@ package handler
 import (
 	"demo/internal/application/service"
 	"demo/internal/infrastructure/cache"
+	"demo/internal/infrastructure/logger"
 	"demo/internal/infrastructure/utils"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 	"log"
 	"net/http"
 	"strconv"
@@ -19,9 +21,10 @@ func NewUserHandler(userService *service.UserService) *UserHandler {
 }
 
 func (h *UserHandler) Test(c *gin.Context) {
+	//test cache
 	cache.MyCachePool.Set("test", "你好golang")
 	cacheVal, _ := cache.MyCachePool.Get("test")
-	log.Println("获取的key test ", cacheVal)
+	logger.Info("获取的key test ", zap.String("val", cacheVal))
 	c.JSON(http.StatusOK, nil)
 }
 
