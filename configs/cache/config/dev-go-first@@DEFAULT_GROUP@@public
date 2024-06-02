@@ -9,3 +9,9 @@ db_config:
     db_user: dev_user
     db_password: dev_user
     db_name: dev
+
+cache_config:
+    host: 127.0.0.1
+    port: 6379
+    db: 
+    password: ""

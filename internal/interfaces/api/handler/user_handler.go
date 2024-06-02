@@ -2,6 +2,7 @@ package handler
 
 import (
 	"demo/internal/application/service"
+	"demo/internal/infrastructure/cache"
 	"demo/internal/infrastructure/utils"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -15,6 +16,13 @@ type UserHandler struct {
 
 func NewUserHandler(userService *service.UserService) *UserHandler {
 	return &UserHandler{userService: userService}
+}
+
+func (h *UserHandler) Test(c *gin.Context) {
+	cache.MyCachePool.Set("test", "你好golang")
+	cacheVal, _ := cache.MyCachePool.Get("test")
+	log.Println("获取的key test ", cacheVal)
+	c.JSON(http.StatusOK, nil)
 }
 
 func (h *UserHandler) GetUser(c *gin.Context) {

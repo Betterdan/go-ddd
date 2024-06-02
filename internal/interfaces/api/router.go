@@ -22,6 +22,7 @@ func NewRouter(rc *RouterConfig) *gin.Engine {
 	userGroup := router.Group("/users")
 	{
 		userGroup.GET("/:id", userHandler.GetUser)
+		userGroup.GET("/test", userHandler.Test)
 	}
 
 	return router

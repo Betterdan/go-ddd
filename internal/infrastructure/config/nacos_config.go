@@ -3,6 +3,7 @@ package config
 import (
 	"gopkg.in/yaml.v2"
 	"log"
+	"time"
 
 	"github.com/nacos-group/nacos-sdk-go/clients"
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
@@ -10,8 +11,9 @@ import (
 )
 
 type Config struct {
-	Server   ServerConfig `yaml:"server"`
-	DbConfig DbConfig     `yaml:"db_config"`
+	Server      ServerConfig `yaml:"server"`
+	DbConfig    DbConfig     `yaml:"db_config"`
+	CacheConfig CacheConfig  `yaml:"cache_config"`
 }
 
 type ServerConfig struct {
@@ -25,6 +27,17 @@ type DbConfig struct {
 	DBUser     string `yaml:"db_user"`
 	DBPassword string `yaml:"db_password"`
 	DBName     string `yaml:"db_name"`
+}
+
+type CacheConfig struct {
+	Host        string        `yaml:"host"`
+	Port        string        `yaml:"port"`
+	Password    string        `yaml:"password"`
+	Db          int           `yaml:"db"`
+	PoolSize    int           `yaml:"pool_size"`
+	MinIdleCon  int           `yaml:"min_idle_con"`
+	PoolTimeout time.Duration `yaml:"pool_timeout"`
+	IdleTimeout time.Duration `yaml:"idle_timeout"`
 }
 
 func LoadConfig() (*Config, error) {
