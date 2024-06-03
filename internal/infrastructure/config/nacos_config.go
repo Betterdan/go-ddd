@@ -16,6 +16,7 @@ type Config struct {
 	DbConfig     DbConfig     `yaml:"db_config"`
 	CacheConfig  CacheConfig  `yaml:"cache_config"`
 	LoggerConfig LoggerConfig `yaml:"log"`
+	KafkaConfig  KafkaConfig  `yaml:"kafka"`
 }
 
 type ServerConfig struct {
@@ -43,6 +44,17 @@ type CacheConfig struct {
 }
 
 type LoggerConfig struct {
+}
+
+type KafkaConfig struct {
+	KafkaBrokers []string      `yaml:"brokers"`
+	KafkaGroupID string        `yaml:"group_id"`
+	KafkaTopics  []TopicConfig `yaml:"topics"`
+}
+
+type TopicConfig struct {
+	Name    string `yaml:"name"`
+	Handler string `yaml:"handler"`
 }
 
 func LoadConfig() (*Config, error) {

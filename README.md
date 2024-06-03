@@ -14,7 +14,8 @@ Go-ddd 实践
 4. 日志、全局异常
 5. ....
 
-
+6. 领域事件的实现封装
+7. 
 
 参考文档：
 https://cloud.tencent.com/developer/article/1791724
@@ -25,3 +26,4 @@ https://github.com/sklinkert/go-ddd/tree/master
 https://github.com/jojoarianto/go-ddd-api/tree/master
 使用 Ginkgo 进行单元测试。 
 https://docs.mryqr.com/ddd-introduction/ 好文章啊
+https://www.liwenzhou.com/posts/Go/kafka-go/

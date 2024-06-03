@@ -4,13 +4,13 @@ import (
 	"context"
 	"database/sql"
 	"demo/internal/application/service"
+	service2 "demo/internal/domain/service"
 	"demo/internal/infrastructure/config"
-	"demo/internal/infrastructure/db"
 	"demo/internal/infrastructure/persistence"
 	"demo/internal/interfaces/api/handler"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"go.uber.org/dig"
+	"go.uber.org/fx"
 	"log"
 	"net/http"
 	"os"
@@ -18,40 +18,50 @@ import (
 	"time"
 )
 
+// Server represents the HTTP server
 type Server struct {
-	Config     *config.Config
-	Router     *gin.Engine
+	config     *config.Config
+	router     *gin.Engine
+	db         *sql.DB
 	httpServer *http.Server
-	DB         *sql.DB
 }
 
-func NewServer(config *config.Config, router *gin.Engine, db *sql.DB) *Server {
+func NewServer(allConfig *config.Config, db *sql.DB, router *gin.Engine) *Server {
 	return &Server{
-		Config: config,
-		Router: router,
-		DB:     db,
+		config: allConfig,
+		db:     db,
 		httpServer: &http.Server{
-			Addr:    fmt.Sprintf("%s:%s", config.Server.Host, config.Server.Port),
+			Addr:    fmt.Sprintf("%s:%s", allConfig.Server.Host, allConfig.Server.Port),
 			Handler: router,
 		},
 	}
 }
 
+func StartServer(lc fx.Lifecycle, s *Server) {
+	lc.Append(fx.Hook{
+		OnStart: func(ctx context.Context) error {
+			go s.Run()
+			return nil
+		},
+		OnStop: func(ctx context.Context) error {
+			go s.GracefulShutdown()
+			return nil
+		},
+	})
+}
+
 func (s *Server) Run() {
 	go func() {
 		if err := s.httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("could not listen on %s: %v\n", s.Config.Server.Host, err)
+			log.Fatalf("could not listen on %s: %v\n", s.config.Server.Host, err)
 		}
 	}()
-	log.Printf("Server is running on %s\n", s.Config.Server.Host)
-
-	s.gracefulShutdown()
+	log.Printf("Server is running on %s\n", s.config.Server.Host)
 }
 
-func (s *Server) gracefulShutdown() {
+func (s *Server) GracefulShutdown() {
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt, os.Kill)
-
 	<-quit
 	log.Println("Shutting down server...")
 
@@ -62,28 +72,20 @@ func (s *Server) gracefulShutdown() {
 		log.Fatalf("Server forced to shutdown: %v", err)
 	}
 
-	if err := s.DB.Close(); err != nil {
+	if err := s.db.Close(); err != nil {
 		log.Fatalf("Database forced to shutdown: %v", err)
 	}
 
 	log.Println("Server exiting")
 }
 
-func BuildContainer(allConfig *config.Config) *dig.Container {
-	container := dig.New()
-
-	container.Provide(func() *config.Config {
-		return allConfig
-	})
-	container.Provide(db.NewDB)
-	container.Provide(persistence.NewUserRepository)
-	container.Provide(service.NewUserService)
-	container.Provide(handler.NewUserHandler)
-
-	container.Provide(NewHandlerList)
-	container.Provide(NewRouterConfig)
-	container.Provide(NewRouter)
-	container.Provide(NewServer)
-
-	return container
-}
+var Module = fx.Options(
+	fx.Provide(persistence.NewUserRepository),
+	fx.Provide(service2.NewUserDomainService),
+	fx.Provide(service.NewUserService),
+	fx.Provide(handler.NewUserHandler),
+	fx.Provide(NewHandlerList),
+	fx.Provide(NewRouterConfig),
+	fx.Provide(NewRouter),
+	fx.Provide(NewServer),
+)
