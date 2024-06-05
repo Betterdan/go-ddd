@@ -2,12 +2,29 @@ package mq
 
 import (
 	"context"
+	"demo/internal/infrastructure/config"
 	"github.com/segmentio/kafka-go"
 )
 
 type KafkaMQ struct {
 	writer *kafka.Writer
 	reader *kafka.Reader
+}
+
+func GetKafkaClientMap(config *config.Config) map[string]*KafkaMQ {
+	mqs := make(map[string]*KafkaMQ)
+	for _, handlerConfig := range config.KafkaConfig.KafkaTopics {
+		mqs[handlerConfig.Name] = NewKafkaMQ(config.KafkaConfig.KafkaBrokers, handlerConfig.Name)
+	}
+	return mqs
+}
+
+func GetKafkaClient(topicName string) *KafkaMQ {
+	if client, exists := MyKafkaClientMap[topicName]; exists {
+		return client
+	} else {
+		return nil
+	}
 }
 
 func NewKafkaMQ(brokers []string, topic string) *KafkaMQ {

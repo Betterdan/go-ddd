@@ -27,3 +27,5 @@ https://github.com/jojoarianto/go-ddd-api/tree/master
 使用 Ginkgo 进行单元测试。 
 https://docs.mryqr.com/ddd-introduction/ 好文章啊
 https://www.liwenzhou.com/posts/Go/kafka-go/
+https://juejin.cn/post/7153582825399124005#heading-5
+https://uber-go.github.io/fx/get-started/http-server.html

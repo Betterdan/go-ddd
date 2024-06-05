@@ -11,6 +11,10 @@ type RouterConfig struct {
 	config      *config.Config
 }
 
+func NewRouterConfig(handlerList *HandlerList, config *config.Config) *RouterConfig {
+	return &RouterConfig{handlerList: handlerList, config: config}
+}
+
 func NewRouter(rc *RouterConfig) *gin.Engine {
 	router := gin.Default()
 
@@ -26,8 +30,4 @@ func NewRouter(rc *RouterConfig) *gin.Engine {
 	}
 
 	return router
-}
-
-func NewRouterConfig(handlerList *HandlerList, config *config.Config) *RouterConfig {
-	return &RouterConfig{handlerList: handlerList, config: config}
 }

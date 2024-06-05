@@ -5,6 +5,7 @@ import (
 	"demo/internal/infrastructure/config"
 	"demo/internal/infrastructure/db"
 	"demo/internal/infrastructure/logger"
+	"demo/internal/infrastructure/mq"
 	"demo/internal/interfaces/api"
 	"demo/internal/interfaces/message"
 	"go.uber.org/fx"
@@ -18,6 +19,8 @@ func main() {
 	logger.InitLogger(cfg)
 	//加载 redis pool
 	cache.InitRedisCache(cfg)
+	//加载MQ
+	mq.InitMqClient(cfg)
 
 	// 运行服务器
 	fx.New(

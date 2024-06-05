@@ -4,7 +4,7 @@ server:
     host: 0.0.0.0
 
 db_config:
-    db_host: 172.18.247.177
+    db_host: 127.0.0.1
     db_port: 5432
     db_user: dev_user
     db_password: dev_user
