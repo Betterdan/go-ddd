@@ -7,6 +7,8 @@ import "demo/internal/domain/model"
 */
 
 type UserRepository interface {
-	//Save(user *model.User) error
+	Create(user *model.User) error
+	SaveInfo(user *model.User) error
 	FindByID(id int64) (*model.User, error)
+	DeleteUser(id int64) error
 }

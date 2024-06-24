@@ -1,25 +1,38 @@
 package db
 
 import (
-	"database/sql"
 	"demo/internal/infrastructure/config"
 	"fmt"
-	_ "github.com/lib/pq"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"time"
 )
 
-func NewDB(config *config.Config) (*sql.DB, error) {
+func NewDB(config *config.Config) (*gorm.DB, error) {
 	dsn := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		config.DbConfig.DBHost, config.DbConfig.DBPort, config.DbConfig.DBUser, config.DbConfig.DBPassword, config.DbConfig.DBName,
+		"%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		config.DbConfig.DBUser, config.DbConfig.DBPassword,
+		config.DbConfig.DBHost, config.DbConfig.DBPort, config.DbConfig.DBName,
 	)
-	db, err := sql.Open("postgres", dsn)
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
 
-	if err := db.Ping(); err != nil {
+	// 获取通用数据库对象 sql.DB ，以便使用其提供的函数
+	sqlDB, err := db.DB()
+	if err != nil {
 		return nil, err
 	}
+
+	// 设置最大空闲连接数
+	sqlDB.SetMaxIdleConns(10)
+
+	// 设置最大打开连接数
+	sqlDB.SetMaxOpenConns(100)
+
+	// 设置了连接可复用的最大时间
+	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	return db, nil
 }

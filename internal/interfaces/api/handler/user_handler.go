@@ -2,9 +2,11 @@ package handler
 
 import (
 	"demo/internal/application/service"
-	"demo/internal/infrastructure/mq"
+	"demo/internal/infrastructure/cache"
+	"demo/internal/infrastructure/logger"
 	"demo/internal/infrastructure/utils"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 	"log"
 	"net/http"
 	"strconv"
@@ -20,22 +22,22 @@ func NewUserHandler(userService *service.UserService) *UserHandler {
 
 func (h *UserHandler) Test(c *gin.Context) {
 	//test cache
-	//cache.MyCachePool.Set("test", "你好golang")
-	//cacheVal, _ := cache.MyCachePool.Get("test")
-	//logger.Info("获取的key test ", zap.String("val", cacheVal))
-	keyPrefix := "prefix_"         // 自定义的前缀
-	fixedKey := "my——key"          // 固定的key
-	fixedValue := []byte("这是一个消息") // 定的value
+	cache.MyCachePool.Set("test", "你好golang")
+	cacheVal, _ := cache.MyCachePool.Get("test")
+	logger.Info("获取的key test ", zap.String("val", cacheVal))
+	//keyPrefix := "prefix_"         // 自定义的前缀
+	//fixedKey := "my——key"          // 固定的key
+	//fixedValue := []byte("这是一个消息") // 定的value
 
 	// 给key加上前缀
-	keyWithPrefix := keyPrefix + fixedKey
+	//keyWithPrefix := keyPrefix + fixedKey
 
 	// 初始化Message
-	msg := mq.Message{
-		Key:   keyWithPrefix,
-		Value: fixedValue,
-	}
-	mq.MyKafkaClientMap["user"].Publish("test", msg)
+	//msg := mq.Message{
+	//	Key:   keyWithPrefix,
+	//	Value: fixedValue,
+	//}
+	//mq.MyKafkaClientMap["user"].Publish("test", msg)
 	c.JSON(http.StatusOK, nil)
 }
 
@@ -50,11 +52,15 @@ func (h *UserHandler) GetUser(c *gin.Context) {
 		return
 	}
 
-	user, err := h.userService.GetUser(id)
+	user, err := h.userService.GetUser(c, id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user"})
 		return
 	}
 
 	c.JSON(http.StatusOK, user)
+}
+
+func (h *UserHandler) CreateAccount(c *gin.Context) {
+
 }

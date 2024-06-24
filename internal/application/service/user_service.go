@@ -1,6 +1,9 @@
 package service
 
 import (
+	"context"
+	"demo/internal/application/dto"
+	"demo/internal/domain/model"
 	"demo/internal/domain/repository"
 )
 
@@ -20,6 +23,21 @@ func NewUserService(repo repository.UserRepository) *UserService {
 //		}
 //		return user, s.userRepository.Save(user)
 //	}
-func (service *UserService) GetUser(id int64) (int, error) {
-	return 1, nil
+func (service *UserService) GetUser(ctx context.Context, id int64) (*dto.UserDTO, error) {
+	user, err := service.userRepository.FindByID(id)
+	if err != nil {
+		return nil, err
+	}
+	return toUserDTO(user), nil
+}
+
+func toUserDTO(user *model.User) *dto.UserDTO {
+	if user == nil {
+		return nil
+	}
+	return &dto.UserDTO{
+		ID:    user.ID,
+		Name:  user.Name,
+		Email: user.Email,
+	}
 }

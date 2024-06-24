@@ -5,13 +5,14 @@ go 1.19
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-redis/redis/v8 v8.11.5
-	github.com/lib/pq v1.10.9
 	github.com/nacos-group/nacos-sdk-go v1.1.4
 	github.com/segmentio/kafka-go v0.4.47
 	github.com/spf13/viper v1.18.2
 	go.uber.org/fx v1.22.0
 	go.uber.org/zap v1.26.0
 	gopkg.in/yaml.v2 v2.4.0
+	gorm.io/driver/mysql v1.5.7
+	gorm.io/gorm v1.25.10
 )
 
 require (
@@ -30,8 +31,11 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.20.0 // indirect
+	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/jmespath/go-jmespath v0.0.0-20180206201540-c2b33e8439af // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.17.0 // indirect
