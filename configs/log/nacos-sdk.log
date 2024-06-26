@@ -107,3 +107,6 @@
 2024-06-25T00:53:56.160+0800	[34mINFO[0m	clients/client_factory.go:47	logDir:<./configs/log>   cacheDir:<./configs/cache>
 2024-06-25T00:54:37.533+0800	[34mINFO[0m	clients/client_factory.go:47	logDir:<./configs/log>   cacheDir:<./configs/cache>
 2024-06-25T01:04:10.464+0800	[34mINFO[0m	clients/client_factory.go:47	logDir:<./configs/log>   cacheDir:<./configs/cache>
+2024-06-25T09:17:48.578+0800	[34mINFO[0m	clients/client_factory.go:47	logDir:<./configs/log>   cacheDir:<./configs/cache>
+2024-06-25T09:22:06.589+0800	[34mINFO[0m	clients/client_factory.go:47	logDir:<./configs/log>   cacheDir:<./configs/cache>
+2024-06-26T22:08:30.068+0800	[34mINFO[0m	clients/client_factory.go:47	logDir:<./configs/log>   cacheDir:<./configs/cache>

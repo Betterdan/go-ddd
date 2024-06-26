@@ -15,14 +15,14 @@ cache_config:
     port: 6379
     db: 
     password: ""
-
-kafka:
-    brokers:
-        - localhost:9092
-    group_id: go-ddd
-    topics:
-        - name: user
-          handler: UserMessageHandler
+# 按需调用，无需用到kafka，注释即可
+# kafka:
+#     brokers:
+#         - localhost:9092
+#     group_id: go-ddd
+#     topics:
+#         - name: user
+#           handler: UserMessageHandler
 
 
 log:
